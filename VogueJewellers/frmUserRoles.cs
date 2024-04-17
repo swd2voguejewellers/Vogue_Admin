@@ -25,6 +25,7 @@ namespace PlayerUI
         private void button5_Click(object sender, EventArgs e)
         {
             this.Close();
+
         }
 
         public void getall()

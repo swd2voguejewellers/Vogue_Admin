@@ -14,11 +14,7 @@ namespace MainMenu
 
         public static string connstr = "Data Source=" + SN + ";Initial Catalog=Limited_DB;User ID=" + UN + ";Password=" + PWD + "";
         public static string connstrHR = "Data Source=" + SN + ";Initial Catalog=HR_Attendance;User ID=" + UN + ";Password=" + PWD + "";
-        //public static string connstrDataCommon = "Data Source=" + SN + ";Initial Catalog=Data_CommonSQL;User ID=" + UN + ";Password=" + PWD + ";MultipleActiveResultSets=true";
-        //public static string connstrVFEZCBNCM = "Data Source=" + SN + ";Initial Catalog=VFE_ZCB_NCM_Intermediate;User ID=" + UN + ";Password=" + PWD + "";
-        //public static string connstrSMS = "Data Source=" + SN + ";Initial Catalog=SMS;User ID=" + UN + ";Password=" + PWD + "";
-        //public static string connstrVFEZCBCM = "Data Source=" + SN + ";Initial Catalog=VFE_ZCB_CM_Intermediate;User ID=" + UN + ";Password=" + PWD + "";
-        //public static string connstrOMS = "Data Source=" + SN + ";Initial Catalog=OMS;User ID=" + UN + ";Password=" + PWD + "";
+       
         
         public static string loggedUser = string.Empty;
         public static string userPass = string.Empty;

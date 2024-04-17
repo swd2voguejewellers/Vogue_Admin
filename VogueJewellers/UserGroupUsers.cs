@@ -46,13 +46,19 @@ namespace VogueJewellers
                 if (groupid != "System.Data.DataRowView")
                 {
                     dgvGroupusers.DataSource = null;
+                    dgvGroupusers.Rows.Clear();
 
                     DataTable dt = new DataTable();
                     SqlDataAdapter adapter = new SqlDataAdapter("SELECT [ID],[EPFNo],HR_Attendance.dbo.Staff.FirstName +' '+HR_Attendance.dbo.Staff.LastName AS Name  FROM [Limited_DB].[dbo].[UserGroupUsers] INNER JOIN HR_Attendance.dbo.Staff ON  HR_Attendance.dbo.Staff.EmployeeID = [Limited_DB].[dbo].[UserGroupUsers].[EPFNo] WHERE [Limited_DB].[dbo].[UserGroupUsers].[GroupID]='" + groupid + "' ", con);
                     adapter.Fill(dt);
 
-                    dgvGroupusers.DataSource = dt;
-                    dgvGroupusers.Columns[0].Visible = false;
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        dgvGroupusers.Rows.Add(dt.Rows[i][0].ToString(), dt.Rows[i][1].ToString(), dt.Rows[i][2].ToString());
+                    }
+
+                    // dgvGroupusers.DataSource = dt;
+                    // dgvGroupusers.Columns[0].Visible = false;
 
                 }
             }
@@ -63,7 +69,7 @@ namespace VogueJewellers
             if (Epfno != null && username == null)
             {
                 DataTable dt = new DataTable();
-                SqlDataAdapter adapter = new SqlDataAdapter("SELECT [EmployeeID],[FirstName]+' ' + LastName As Name  FROM [HR_Attendance].[dbo].[Staff] WHERE [Status]=1 AND EmployeeID = '" + Epfno + "'", con);
+                SqlDataAdapter adapter = new SqlDataAdapter("SELECT '' as ID,[EmployeeID],[FirstName]+' ' + LastName As Name  FROM [HR_Attendance].[dbo].[Staff] WHERE [Status]=1 AND EmployeeID = '" + Epfno + "'", con);
                 adapter.Fill(dt);
 
                 dgvUsers.DataSource = dt;
@@ -72,12 +78,17 @@ namespace VogueJewellers
             if (username != null && Epfno == null)
             {
                 DataTable dt = new DataTable();
-                SqlDataAdapter adapter = new SqlDataAdapter("SELECT [EmployeeID],[FirstName]+' ' + LastName As Name  FROM [HR_Attendance].[dbo].[Staff] WHERE [Status]=1 AND  FirstName like  '%" + username + "%'", con);
+                SqlDataAdapter adapter = new SqlDataAdapter("SELECT '' as ID,[EmployeeID],[FirstName]+' ' + LastName As Name  FROM [HR_Attendance].[dbo].[Staff] WHERE [Status]=1 AND  FirstName like  '%" + username + "%'", con);
                 adapter.Fill(dt);
 
                 dgvUsers.DataSource = dt;
 
             }
+        }
+        public void usercolumnadd()
+        {
+            dtnew.Columns.AddRange(new DataColumn[3] { new DataColumn("ID"), new DataColumn("EPF"), new DataColumn("Name") });
+            dtnew.PrimaryKey = new DataColumn[] { dtnew.Columns["EPF"] };
         }
         public void LoadUserGroups()
         {
@@ -98,8 +109,6 @@ namespace VogueJewellers
             dgvUsers.Columns[0].Visible = false;
 
             this.WindowState = FormWindowState.Maximized;
-            dtnew.Columns.AddRange(new DataColumn[3] { new DataColumn("ID"), new DataColumn("EPF"), new DataColumn("Name") });
-            dtnew.PrimaryKey = new DataColumn[] { dtnew.Columns["EPF"] };
         }
 
         private void txtUN_Search_TextChanged(object sender, EventArgs e)
@@ -130,30 +139,34 @@ namespace VogueJewellers
 
         private void dgvUsers_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-
             var senderGrid = (DataGridView)sender;
             int selectedrowindex = dgvUsers.SelectedCells[0].RowIndex;
             DataGridViewRow selectedRow = dgvUsers.Rows[selectedrowindex];
+
             string ID = "";
             string EPF = Convert.ToString(selectedRow.Cells[1].Value);
             string Name = Convert.ToString(selectedRow.Cells[2].Value);
 
-            for (int i = 0; i < dtnew.Rows.Count; i++)
+            if (dgvGroupusers.Rows.Count > 0)
             {
-                if (dtnew.Rows[i][0].ToString() == EPF)
+                for (int i = 0; i < dgvGroupusers.Rows.Count; i++)
                 {
-                    MessageBox.Show("Dupplicate user");
-                    return;
+                    string gEPF = dgvGroupusers.Rows[i].Cells[1].FormattedValue.ToString();
+
+                    if (gEPF == EPF)
+                    {
+                        MessageBox.Show("Dupplicate User");
+                        return;
+                    }
                 }
             }
-            DataRow newRow = dtnew.NewRow();
-            newRow["ID"] = ID;
-            newRow["EPF"] = EPF;
-            newRow["Name"] = Name;
-            dtnew.Rows.Add(newRow);
 
-            dgvGroupusers.DataSource = dtnew;
+            dgvGroupusers.Rows.Add(ID, EPF, Name);
+
+            // dgvGroupusers.Columns["ID"].Visible = false;
+
             lblNoOfItems.Text = dtnew.Rows.Count.ToString();
+
         }
 
         private void dgvGroupusers_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -166,23 +179,17 @@ namespace VogueJewellers
 
             if (ID == "")
             {
-                DataRow employeeRow = dtnew.Rows.Find(EPF);
-                if (employeeRow != null)
-                {
-                    employeeRow.Delete();
-                    dtnew.AcceptChanges(); // Commit the deletion
-                }
-
-                dgvGroupusers.DataSource = dtnew;
-            }else
+                dgvGroupusers.Rows.RemoveAt(selectedrowindex);
+            }
+            else
             {
                 string queryINS = string.Empty;
-                queryINS = "DELETE FROM [Limited_DB].[dbo]. UserGroupUsers WHERE ID ='" + ID +"'";
+                queryINS = "DELETE FROM [Limited_DB].[dbo]. UserGroupUsers WHERE ID ='" + ID + "'";
                 CommonDev.ExecuteStatement(queryINS, CommonDev.connstr);
-                loadgroups();
+                dgvGroupusers.DataSource = null;
+                dgvGroupusers.Rows.Clear();
             }
-
-
+            loadgroups();
             lblNoOfItems.Text = dtnew.Rows.Count.ToString();
 
         }
@@ -202,30 +209,36 @@ namespace VogueJewellers
                 return;
             }
 
-            for (int i = 0; i < dgvGroupusers.Rows.Count; i++)
+            DialogResult dresult = MessageBox.Show("Do you want to Save ?", "User_Permission", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dresult == System.Windows.Forms.DialogResult.No)
             {
-                int groupid = int.Parse(dgvGroupusers.Rows[i].Cells[1].FormattedValue.ToString());
-
-
-                DialogResult dresult = MessageBox.Show("Do you want to Save ?", "User_Permission", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (dresult == System.Windows.Forms.DialogResult.No)
-                {
-                    return;
-                }
-                string queryINS = string.Empty;
-                queryINS = "INSERT INTO UserGroupUsers(GroupID,EPFNo,IsActive,DateCreated,UserCreated) " +
-                           "VALUES('" + cmbUserGroup.SelectedValue + "','" + groupid + "','" + IsActive + "', " +
-                           "'" + DateTime.Now + "','" + CommonDev.loggedUser + "')";
-                CommonDev.ExecuteStatement(queryINS, CommonDev.connstr);
+                return;
             }
+            else
+            {
+                for (int i = 0; i < dgvGroupusers.Rows.Count; i++)
+                {
+                    string id = dgvGroupusers.Rows[i].Cells[0].FormattedValue.ToString();
+                    string epf = dgvGroupusers.Rows[i].Cells[1].FormattedValue.ToString();
+
+                    if (id == "")
+                    {
+                        string queryINS = string.Empty;
+                        queryINS = "INSERT INTO UserGroupUsers(GroupID,EPFNo,IsActive,DateCreated,UserCreated) " +
+                                   "VALUES('" + cmbUserGroup.SelectedValue + "','" + epf + "','" + IsActive + "', " +
+                                   "'" + DateTime.Now + "','" + CommonDev.loggedUser + "')";
+                        CommonDev.ExecuteStatement(queryINS, CommonDev.connstr);
+                    }
+                }
+            }
+            loadgroups();
             MessageBox.Show("User Group Added Successfully.");
 
-            dtnew = new DataTable();
         }
 
         private void btnClear_Click(object sender, EventArgs e)
         {
-            dgvGroupusers.Rows.Clear();
+            dgvGroupusers.DataSource = null;
         }
 
         private void btnClose_Click(object sender, EventArgs e)
@@ -235,7 +248,19 @@ namespace VogueJewellers
 
         private void cmbUserGroup_SelectedIndexChanged(object sender, EventArgs e)
         {
+
+        }
+
+        private void btnSrch_Click(object sender, EventArgs e)
+        {
+            dgvGroupusers.DataSource = null;
+            dgvGroupusers.Rows.Clear();
             loadgroups();
+        }
+
+        private void cmbUserGroup_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+
         }
     }
 }

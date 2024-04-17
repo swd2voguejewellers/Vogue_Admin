@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmUserLoginCreate));
             this.btnClose = new System.Windows.Forms.Button();
@@ -47,6 +48,7 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.txtEpfNo_Search = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
+            this.cboxBranch_Search = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
             this.txtUN_Search = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -60,11 +62,18 @@
             this.txtUserName = new System.Windows.Forms.TextBox();
             this.Label22 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.cboxBranch_Search = new System.Windows.Forms.ComboBox();
+            this.checkBoxLtd = new System.Windows.Forms.CheckBox();
+            this.checkBoxLtdi = new System.Windows.Forms.CheckBox();
+            this.dgvBranchers = new System.Windows.Forms.DataGridView();
+            this.label8 = new System.Windows.Forms.Label();
+            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Branch = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IsAccess = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUserDtls)).BeginInit();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvBranchers)).BeginInit();
             this.SuspendLayout();
             // 
             // btnClose
@@ -73,7 +82,7 @@
             this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClose.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnClose.ForeColor = System.Drawing.Color.White;
-            this.btnClose.Location = new System.Drawing.Point(255, 384);
+            this.btnClose.Location = new System.Drawing.Point(257, 448);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(68, 27);
             this.btnClose.TabIndex = 10;
@@ -87,7 +96,7 @@
             this.btnSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSave.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSave.ForeColor = System.Drawing.Color.White;
-            this.btnSave.Location = new System.Drawing.Point(7, 384);
+            this.btnSave.Location = new System.Drawing.Point(9, 448);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(68, 27);
             this.btnSave.TabIndex = 7;
@@ -97,8 +106,12 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.dgvBranchers);
             this.groupBox1.Controls.Add(this.cmbUserGroup);
+            this.groupBox1.Controls.Add(this.label8);
             this.groupBox1.Controls.Add(this.label6);
+            this.groupBox1.Controls.Add(this.checkBoxLtdi);
+            this.groupBox1.Controls.Add(this.checkBoxLtd);
             this.groupBox1.Controls.Add(this.CheckboxIsActive);
             this.groupBox1.Controls.Add(this.txtFullName);
             this.groupBox1.Controls.Add(this.label4);
@@ -117,9 +130,9 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.txtUserName);
             this.groupBox1.Controls.Add(this.Label22);
-            this.groupBox1.Location = new System.Drawing.Point(10, 40);
+            this.groupBox1.Location = new System.Drawing.Point(10, 32);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(884, 450);
+            this.groupBox1.Size = new System.Drawing.Size(884, 491);
             this.groupBox1.TabIndex = 232;
             this.groupBox1.TabStop = false;
             // 
@@ -129,7 +142,7 @@
             this.cmbUserGroup.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.cmbUserGroup.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbUserGroup.FormattingEnabled = true;
-            this.cmbUserGroup.Location = new System.Drawing.Point(138, 277);
+            this.cmbUserGroup.Location = new System.Drawing.Point(138, 200);
             this.cmbUserGroup.Name = "cmbUserGroup";
             this.cmbUserGroup.Size = new System.Drawing.Size(167, 23);
             this.cmbUserGroup.TabIndex = 6;
@@ -139,7 +152,7 @@
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.Color.White;
-            this.label6.Location = new System.Drawing.Point(15, 278);
+            this.label6.Location = new System.Drawing.Point(15, 201);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(83, 17);
             this.label6.TabIndex = 294;
@@ -152,7 +165,7 @@
             this.CheckboxIsActive.CheckState = System.Windows.Forms.CheckState.Checked;
             this.CheckboxIsActive.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CheckboxIsActive.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.CheckboxIsActive.Location = new System.Drawing.Point(138, 319);
+            this.CheckboxIsActive.Location = new System.Drawing.Point(138, 407);
             this.CheckboxIsActive.Name = "CheckboxIsActive";
             this.CheckboxIsActive.Size = new System.Drawing.Size(76, 21);
             this.CheckboxIsActive.TabIndex = 292;
@@ -162,7 +175,7 @@
             // txtFullName
             // 
             this.txtFullName.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtFullName.Location = new System.Drawing.Point(138, 238);
+            this.txtFullName.Location = new System.Drawing.Point(138, 169);
             this.txtFullName.MaxLength = 20;
             this.txtFullName.Name = "txtFullName";
             this.txtFullName.Size = new System.Drawing.Size(167, 22);
@@ -173,7 +186,7 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(14, 240);
+            this.label4.Location = new System.Drawing.Point(14, 171);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(65, 17);
             this.label4.TabIndex = 291;
@@ -184,7 +197,7 @@
             this.chkShowPassword.AutoSize = true;
             this.chkShowPassword.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chkShowPassword.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.chkShowPassword.Location = new System.Drawing.Point(138, 166);
+            this.chkShowPassword.Location = new System.Drawing.Point(138, 111);
             this.chkShowPassword.Name = "chkShowPassword";
             this.chkShowPassword.Size = new System.Drawing.Size(120, 21);
             this.chkShowPassword.TabIndex = 289;
@@ -235,8 +248,8 @@
             this.dgvUserDtls.Name = "dgvUserDtls";
             this.dgvUserDtls.ReadOnly = true;
             this.dgvUserDtls.RowHeadersVisible = false;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dgvUserDtls.RowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgvUserDtls.RowsDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvUserDtls.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvUserDtls.Size = new System.Drawing.Size(523, 316);
             this.dgvUserDtls.TabIndex = 285;
@@ -248,7 +261,7 @@
             this.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDelete.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDelete.ForeColor = System.Drawing.Color.White;
-            this.btnDelete.Location = new System.Drawing.Point(159, 384);
+            this.btnDelete.Location = new System.Drawing.Point(161, 448);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(87, 27);
             this.btnDelete.TabIndex = 9;
@@ -294,6 +307,24 @@
             this.label11.TabIndex = 291;
             this.label11.Text = "Emp No :";
             // 
+            // cboxBranch_Search
+            // 
+            this.cboxBranch_Search.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboxBranch_Search.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.cboxBranch_Search.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cboxBranch_Search.FormattingEnabled = true;
+            this.cboxBranch_Search.Items.AddRange(new object[] {
+            "Kollupitiya",
+            "Negombo",
+            "Nugegoda",
+            "Kurunegala",
+            "KCC"});
+            this.cboxBranch_Search.Location = new System.Drawing.Point(407, 23);
+            this.cboxBranch_Search.Name = "cboxBranch_Search";
+            this.cboxBranch_Search.Size = new System.Drawing.Size(120, 23);
+            this.cboxBranch_Search.TabIndex = 288;
+            this.cboxBranch_Search.SelectedIndexChanged += new System.EventHandler(this.cboxBranch_Search_SelectedIndexChanged);
+            // 
             // label9
             // 
             this.label9.AutoSize = true;
@@ -332,7 +363,7 @@
             this.btnClear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClear.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnClear.ForeColor = System.Drawing.Color.White;
-            this.btnClear.Location = new System.Drawing.Point(83, 384);
+            this.btnClear.Location = new System.Drawing.Point(85, 448);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(68, 27);
             this.btnClear.TabIndex = 8;
@@ -343,7 +374,7 @@
             // txtEmpNo
             // 
             this.txtEmpNo.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtEmpNo.Location = new System.Drawing.Point(138, 197);
+            this.txtEmpNo.Location = new System.Drawing.Point(138, 139);
             this.txtEmpNo.MaxLength = 10;
             this.txtEmpNo.Name = "txtEmpNo";
             this.txtEmpNo.Size = new System.Drawing.Size(167, 22);
@@ -354,7 +385,7 @@
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.ForeColor = System.Drawing.Color.White;
-            this.label7.Location = new System.Drawing.Point(14, 202);
+            this.label7.Location = new System.Drawing.Point(14, 144);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(61, 17);
             this.label7.TabIndex = 276;
@@ -363,7 +394,7 @@
             // txtConfirmPass
             // 
             this.txtConfirmPass.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtConfirmPass.Location = new System.Drawing.Point(138, 139);
+            this.txtConfirmPass.Location = new System.Drawing.Point(138, 80);
             this.txtConfirmPass.MaxLength = 15;
             this.txtConfirmPass.Name = "txtConfirmPass";
             this.txtConfirmPass.PasswordChar = '*';
@@ -373,7 +404,7 @@
             // txtPass
             // 
             this.txtPass.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPass.Location = new System.Drawing.Point(138, 92);
+            this.txtPass.Location = new System.Drawing.Point(138, 49);
             this.txtPass.MaxLength = 15;
             this.txtPass.Name = "txtPass";
             this.txtPass.PasswordChar = '*';
@@ -385,7 +416,7 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.White;
-            this.label5.Location = new System.Drawing.Point(14, 141);
+            this.label5.Location = new System.Drawing.Point(14, 82);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(122, 17);
             this.label5.TabIndex = 247;
@@ -396,7 +427,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(14, 94);
+            this.label1.Location = new System.Drawing.Point(14, 51);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(72, 17);
             this.label1.TabIndex = 245;
@@ -405,7 +436,7 @@
             // txtUserName
             // 
             this.txtUserName.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtUserName.Location = new System.Drawing.Point(138, 50);
+            this.txtUserName.Location = new System.Drawing.Point(138, 19);
             this.txtUserName.MaxLength = 20;
             this.txtUserName.Name = "txtUserName";
             this.txtUserName.Size = new System.Drawing.Size(167, 22);
@@ -416,7 +447,7 @@
             this.Label22.AutoSize = true;
             this.Label22.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Label22.ForeColor = System.Drawing.Color.White;
-            this.Label22.Location = new System.Drawing.Point(14, 52);
+            this.Label22.Location = new System.Drawing.Point(14, 21);
             this.Label22.Name = "Label22";
             this.Label22.Size = new System.Drawing.Size(79, 17);
             this.Label22.TabIndex = 243;
@@ -425,38 +456,93 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Calibri", 22F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Font = new System.Drawing.Font("Calibri", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
             this.label2.Location = new System.Drawing.Point(3, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(237, 37);
+            this.label2.Size = new System.Drawing.Size(189, 29);
             this.label2.TabIndex = 234;
             this.label2.Text = "User Login Create";
             // 
-            // cboxBranch_Search
+            // checkBoxLtd
             // 
-            this.cboxBranch_Search.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboxBranch_Search.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.cboxBranch_Search.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cboxBranch_Search.FormattingEnabled = true;
-            this.cboxBranch_Search.Items.AddRange(new object[] {
-            "Kollupitiya",
-            "Negombo",
-            "Nugegoda",
-            "Kurunegala",
-            "KCC"});
-            this.cboxBranch_Search.Location = new System.Drawing.Point(407, 23);
-            this.cboxBranch_Search.Name = "cboxBranch_Search";
-            this.cboxBranch_Search.Size = new System.Drawing.Size(120, 23);
-            this.cboxBranch_Search.TabIndex = 288;
-            this.cboxBranch_Search.SelectedIndexChanged += new System.EventHandler(this.cboxBranch_Search_SelectedIndexChanged);
+            this.checkBoxLtd.AutoSize = true;
+            this.checkBoxLtd.Checked = true;
+            this.checkBoxLtd.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxLtd.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxLtd.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.checkBoxLtd.Location = new System.Drawing.Point(138, 380);
+            this.checkBoxLtd.Name = "checkBoxLtd";
+            this.checkBoxLtd.Size = new System.Drawing.Size(48, 21);
+            this.checkBoxLtd.TabIndex = 292;
+            this.checkBoxLtd.Text = "LTD";
+            this.checkBoxLtd.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxLtdi
+            // 
+            this.checkBoxLtdi.AutoSize = true;
+            this.checkBoxLtdi.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxLtdi.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
+            this.checkBoxLtdi.Location = new System.Drawing.Point(207, 380);
+            this.checkBoxLtdi.Name = "checkBoxLtdi";
+            this.checkBoxLtdi.Size = new System.Drawing.Size(51, 21);
+            this.checkBoxLtdi.TabIndex = 292;
+            this.checkBoxLtdi.Text = "LTDi";
+            this.checkBoxLtdi.UseVisualStyleBackColor = true;
+            // 
+            // dgvBranchers
+            // 
+            this.dgvBranchers.AllowUserToAddRows = false;
+            this.dgvBranchers.AllowUserToDeleteRows = false;
+            this.dgvBranchers.AllowUserToResizeRows = false;
+            this.dgvBranchers.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvBranchers.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvBranchers.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ID,
+            this.Branch,
+            this.IsAccess});
+            this.dgvBranchers.Location = new System.Drawing.Point(138, 234);
+            this.dgvBranchers.Name = "dgvBranchers";
+            this.dgvBranchers.RowHeadersVisible = false;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Calibri", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.dgvBranchers.RowsDefaultCellStyle = dataGridViewCellStyle1;
+            this.dgvBranchers.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvBranchers.Size = new System.Drawing.Size(173, 133);
+            this.dgvBranchers.TabIndex = 288;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.ForeColor = System.Drawing.Color.White;
+            this.label8.Location = new System.Drawing.Point(15, 234);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(57, 17);
+            this.label8.TabIndex = 294;
+            this.label8.Text = "Branch :";
+            // 
+            // ID
+            // 
+            this.ID.HeaderText = "ID";
+            this.ID.Name = "ID";
+            this.ID.Visible = false;
+            // 
+            // Branch
+            // 
+            this.Branch.HeaderText = "Branch";
+            this.Branch.Name = "Branch";
+            // 
+            // IsAccess
+            // 
+            this.IsAccess.HeaderText = "IsAccess";
+            this.IsAccess.Name = "IsAccess";
             // 
             // frmUserLoginCreate
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.SteelBlue;
-            this.ClientSize = new System.Drawing.Size(905, 502);
+            this.ClientSize = new System.Drawing.Size(905, 535);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label2);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -473,6 +559,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvUserDtls)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvBranchers)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -511,6 +598,13 @@
         private System.Windows.Forms.ComboBox cmbUserGroup;
         internal System.Windows.Forms.Label label6;
         private System.Windows.Forms.ComboBox cboxBranch_Search;
+        private System.Windows.Forms.CheckBox checkBoxLtdi;
+        private System.Windows.Forms.CheckBox checkBoxLtd;
+        private System.Windows.Forms.DataGridView dgvBranchers;
+        internal System.Windows.Forms.Label label8;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Branch;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn IsAccess;
     }
 }
 

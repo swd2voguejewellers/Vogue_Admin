@@ -30,6 +30,12 @@
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cmbuserGroup = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.btnadd = new System.Windows.Forms.Button();
+            this.cmbSubRoles = new System.Windows.Forms.ComboBox();
+            this.cmbUserRoles = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.userroleID = new System.Windows.Forms.Label();
             this.CheckboxIsActive = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -45,12 +51,6 @@
             this.btnSave = new System.Windows.Forms.Button();
             this.Label22 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.cmbUserRoles = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.cmbSubRoles = new System.Windows.Forms.ComboBox();
-            this.btnadd = new System.Windows.Forms.Button();
-            this.cmbuserGroup = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvUserDtls)).BeginInit();
@@ -79,6 +79,74 @@
             this.groupBox1.Size = new System.Drawing.Size(766, 450);
             this.groupBox1.TabIndex = 240;
             this.groupBox1.TabStop = false;
+            // 
+            // cmbuserGroup
+            // 
+            this.cmbuserGroup.FormattingEnabled = true;
+            this.cmbuserGroup.Location = new System.Drawing.Point(150, 52);
+            this.cmbuserGroup.Name = "cmbuserGroup";
+            this.cmbuserGroup.Size = new System.Drawing.Size(188, 21);
+            this.cmbuserGroup.TabIndex = 299;
+            this.cmbuserGroup.SelectedIndexChanged += new System.EventHandler(this.cmbuserGroup_SelectedIndexChanged);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.ForeColor = System.Drawing.Color.White;
+            this.label4.Location = new System.Drawing.Point(26, 54);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(83, 17);
+            this.label4.TabIndex = 298;
+            this.label4.Text = "User Group :";
+            // 
+            // btnadd
+            // 
+            this.btnadd.BackColor = System.Drawing.Color.Purple;
+            this.btnadd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnadd.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnadd.ForeColor = System.Drawing.Color.White;
+            this.btnadd.Location = new System.Drawing.Point(150, 228);
+            this.btnadd.Name = "btnadd";
+            this.btnadd.Size = new System.Drawing.Size(68, 27);
+            this.btnadd.TabIndex = 297;
+            this.btnadd.Text = "ADD";
+            this.btnadd.UseVisualStyleBackColor = false;
+            this.btnadd.Click += new System.EventHandler(this.btnadd_Click);
+            // 
+            // cmbSubRoles
+            // 
+            this.cmbSubRoles.FormattingEnabled = true;
+            this.cmbSubRoles.Items.AddRange(new object[] {
+            "/ Add",
+            "/ Edit",
+            "/  View",
+            "/ Delete",
+            "/ Print"});
+            this.cmbSubRoles.Location = new System.Drawing.Point(150, 130);
+            this.cmbSubRoles.Name = "cmbSubRoles";
+            this.cmbSubRoles.Size = new System.Drawing.Size(188, 21);
+            this.cmbSubRoles.TabIndex = 296;
+            // 
+            // cmbUserRoles
+            // 
+            this.cmbUserRoles.FormattingEnabled = true;
+            this.cmbUserRoles.Location = new System.Drawing.Point(150, 88);
+            this.cmbUserRoles.Name = "cmbUserRoles";
+            this.cmbUserRoles.Size = new System.Drawing.Size(188, 21);
+            this.cmbUserRoles.TabIndex = 296;
+            this.cmbUserRoles.SelectedIndexChanged += new System.EventHandler(this.cmbUserRoles_SelectedIndexChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.Color.White;
+            this.label3.Location = new System.Drawing.Point(26, 90);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(71, 17);
+            this.label3.TabIndex = 295;
+            this.label3.Text = "User Role :";
             // 
             // userroleID
             // 
@@ -226,6 +294,7 @@
             this.btnClose.TabIndex = 261;
             this.btnClose.Text = "Exit";
             this.btnClose.UseVisualStyleBackColor = false;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
             // 
             // btnSave
             // 
@@ -262,73 +331,6 @@
             this.label2.Size = new System.Drawing.Size(201, 37);
             this.label2.TabIndex = 241;
             this.label2.Text = "User Sub Roles";
-            // 
-            // cmbUserRoles
-            // 
-            this.cmbUserRoles.FormattingEnabled = true;
-            this.cmbUserRoles.Location = new System.Drawing.Point(150, 88);
-            this.cmbUserRoles.Name = "cmbUserRoles";
-            this.cmbUserRoles.Size = new System.Drawing.Size(188, 21);
-            this.cmbUserRoles.TabIndex = 296;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(26, 90);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(71, 17);
-            this.label3.TabIndex = 295;
-            this.label3.Text = "User Role :";
-            // 
-            // cmbSubRoles
-            // 
-            this.cmbSubRoles.FormattingEnabled = true;
-            this.cmbSubRoles.Items.AddRange(new object[] {
-            "/ Add",
-            "/ Edit",
-            "/  View",
-            "/ Delete",
-            "/ Print"});
-            this.cmbSubRoles.Location = new System.Drawing.Point(150, 130);
-            this.cmbSubRoles.Name = "cmbSubRoles";
-            this.cmbSubRoles.Size = new System.Drawing.Size(188, 21);
-            this.cmbSubRoles.TabIndex = 296;
-            // 
-            // btnadd
-            // 
-            this.btnadd.BackColor = System.Drawing.Color.Purple;
-            this.btnadd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnadd.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnadd.ForeColor = System.Drawing.Color.White;
-            this.btnadd.Location = new System.Drawing.Point(150, 228);
-            this.btnadd.Name = "btnadd";
-            this.btnadd.Size = new System.Drawing.Size(68, 27);
-            this.btnadd.TabIndex = 297;
-            this.btnadd.Text = "ADD";
-            this.btnadd.UseVisualStyleBackColor = false;
-            this.btnadd.Click += new System.EventHandler(this.btnadd_Click);
-            // 
-            // cmbuserGroup
-            // 
-            this.cmbuserGroup.FormattingEnabled = true;
-            this.cmbuserGroup.Location = new System.Drawing.Point(150, 52);
-            this.cmbuserGroup.Name = "cmbuserGroup";
-            this.cmbuserGroup.Size = new System.Drawing.Size(188, 21);
-            this.cmbuserGroup.TabIndex = 299;
-            this.cmbuserGroup.SelectedIndexChanged += new System.EventHandler(this.cmbuserGroup_SelectedIndexChanged);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Calibri", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(26, 54);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(83, 17);
-            this.label4.TabIndex = 298;
-            this.label4.Text = "User Group :";
             // 
             // frmSubRoles
             // 

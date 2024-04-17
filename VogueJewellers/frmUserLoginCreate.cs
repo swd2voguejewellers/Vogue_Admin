@@ -15,7 +15,7 @@ namespace User_Creation
     public partial class frmUserLoginCreate : Form
     {
         SqlConnection con = new SqlConnection(CommonDev.connstr);
-
+        string type;
         public frmUserLoginCreate()
         {
             InitializeComponent();
@@ -67,8 +67,51 @@ namespace User_Creation
             adapter.Fill(dt);
 
             dgvUserDtls.DataSource = dt;
+            dgvUserDtls.Columns[0].Visible = false;
 
         }
+        public void getallaccesbranchres(string empNo)
+        {
+            DataTable dt1 = new DataTable();
+            SqlDataAdapter adapter1 = new SqlDataAdapter("SELECT BranchAccess.BranchID as BranchID, BranchMaster.BranchName, BranchAccess.EmpNo FROM BranchAccess INNER JOIN BranchMaster ON BranchAccess.BranchID = BranchMaster.BranchID\r\nWHERE (BranchAccess.IsActive = 1 AND EmpNo='" + empNo + "')", con);
+            adapter1.Fill(dt1);
+
+            if (dgvBranchers.Rows.Count > 0)
+            {
+                for (int i = 0; i < dgvBranchers.Rows.Count; i++)
+                {
+                    string id = dgvBranchers.Rows[i].Cells[0].FormattedValue.ToString();
+
+                    for (int j = 0; j < dt1.Rows.Count; j++)
+                    {
+                        if (id == dt1.Rows[j]["BranchID"].ToString())
+                        {
+                            dgvBranchers.Rows[i].Cells["IsAccess"].Value = true;
+                        }
+                    }
+
+                }
+
+            }
+
+        }
+
+        public void getallBranchers()
+        {
+            dgvBranchers.DataSource = null;
+            dgvBranchers.Rows.Clear();
+
+            DataTable dt = new DataTable();
+            SqlDataAdapter adapter = new SqlDataAdapter("SELECT [BranchID],[BranchName]  FROM [Limited_DB].[dbo].[BranchMaster] WHERE [IsActive] = 1", con);
+            adapter.Fill(dt);
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                dgvBranchers.Rows.Add(dt.Rows[i][0].ToString(), dt.Rows[i][1].ToString());
+            }
+
+        }
+
         public void findallusers(string Epfno, string username)
         {
             if (Epfno != null && username == null)
@@ -109,6 +152,8 @@ namespace User_Creation
             ClearFields();
             LoadUserGroups();
             getallusers();
+            getallBranchers();
+
         }
 
         private void SetItemGridView()
@@ -159,6 +204,8 @@ namespace User_Creation
             chkShowPassword.Checked = false;
             cmbUserGroup.SelectedIndex = -1;
             txtFullName.Text = string.Empty;
+            getallBranchers();
+            checkBoxLtdi.Checked = false;
         }
 
         //private void LoadAllUsers() 
@@ -271,6 +318,13 @@ namespace User_Creation
                 return;
             }
 
+            if (checkBoxLtd.Checked == true)
+                type = "LTD";
+            if (checkBoxLtdi.Checked == true)
+                type = "LTDi";
+            if (checkBoxLtdi.Checked == true && checkBoxLtd.Checked == true)
+                type = "LTD/LTDi";
+
             if (CheckboxIsActive.Checked == true)
                 IsActive = true;
             else
@@ -281,6 +335,7 @@ namespace User_Creation
             {
                 hash = GetMd5Hash(md5Hash, txtConfirmPass.Text.Trim());
             }
+
 
             string query = string.Empty;
             query = "SELECT * FROM UserDetails WHERE UserName IN('" + txtUserName.Text.Trim() + "')";
@@ -293,15 +348,29 @@ namespace User_Creation
                 {
                     return;
                 }
-                string queryUPD = string.Empty;
+                string queryUPD, queryUPD1 = string.Empty;
                 queryUPD = "UPDATE UserDetails SET UPassword = '" + hash + "', " +
                            "DateLastModified = '" + DateTime.Now + "', " +
                            "UserCreated = '" + CommonDev.loggedUser + "', " +
                            "EPFNO = '" + txtEmpNo.Text.Trim() + "', " +
-                           "IsActive = '" + IsActive + "', " +
+                           "IsActive = '" + IsActive + "',Type ='" + type + "', " +
                            "UserGroupID = '" + cmbUserGroup.SelectedValue + "' WHERE UserName IN('" + txtUserName.Text.Trim() + "')";
                 CommonDev.ExecuteStatement(queryUPD, CommonDev.connstr);
+                CommonDev.ExecuteStatement(" DELETE FROM [Limited_DB].[dbo].[BranchAccess] WHERE [EmpNo]= '" + txtEmpNo.Text.Trim() + "'", CommonDev.connstr);
 
+                for (int i = 0; i < dgvBranchers.Rows.Count; i++)
+                {
+                    string BranchID = dgvBranchers.Rows[i].Cells[0].FormattedValue.ToString();
+                    string ischecked = dgvBranchers.Rows[i].Cells["IsAccess"].FormattedValue.ToString();
+
+                    if (ischecked == "True")
+                    {
+                        queryUPD1 = "INSERT INTO [dbo].[BranchAccess]([BranchID],[EmpNo],[IsActive],[DateCreated],[UserCreated]) " +
+                                                                "VALUES ('" + BranchID + "','" + txtEmpNo.Text + "','TRUE','" + DateTime.Now.ToString() + "','" + CommonDev.loggedUser + "')";
+                        CommonDev.ExecuteStatement(queryUPD1, CommonDev.connstr);
+                    }
+
+                }
                 MessageBox.Show("User Details Updated Successfully.");
                 ClearFields();
                 getallusers();
@@ -314,11 +383,25 @@ namespace User_Creation
                 {
                     return;
                 }
-                string queryINS = string.Empty;
-                queryINS = "INSERT INTO UserDetails(EPFNo,UserName,UPassword,FullName,IsActive,UserGroupID,DateCreated,UserCreated) " +
-                           "VALUES('" + txtEmpNo.Text.Trim() + "','" + txtUserName.Text.Trim() + "','" + hash + "','" + txtFullName.Text.Trim() + "','" + IsActive + "','" + cmbUserGroup.SelectedValue + "', " +
+                string queryINS, queryINS1 = string.Empty;
+                queryINS = "INSERT INTO UserDetails(EPFNo,UserName,UPassword,FullName,IsActive,UserGroupID,Type,DateCreated,UserCreated) " +
+                           "VALUES('" + txtEmpNo.Text.Trim() + "','" + txtUserName.Text.Trim() + "','" + hash + "','" + txtFullName.Text.Trim() + "','" + IsActive + "','" + cmbUserGroup.SelectedValue + "','" + type + "', " +
                            "'" + DateTime.Now + "','" + CommonDev.loggedUser + "')";
                 CommonDev.ExecuteStatement(queryINS, CommonDev.connstr);
+
+                for (int i = 0; i < dgvBranchers.Rows.Count; i++)
+                {
+                    string BranchID = dgvBranchers.Rows[i].Cells[0].FormattedValue.ToString();
+                    string ischecked = dgvBranchers.Rows[i].Cells["IsAccess"].FormattedValue.ToString();
+
+                    if (ischecked == "True")
+                    {
+                        queryINS1 = "INSERT INTO [dbo].[BranchAccess]([BranchID],[EmpNo],[IsActive],[DateCreated],[UserCreated]) " +
+                                                                "VALUES ('" + BranchID + "','" + txtEmpNo.Text + "','TRUE','" + DateTime.Now.ToString() + "','" + CommonDev.loggedUser + "')";
+                        CommonDev.ExecuteStatement(queryINS1, CommonDev.connstr);
+                    }
+
+                }
 
                 MessageBox.Show("User Details Added Successfully.", "User_Permission", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 ClearFields();
@@ -431,6 +514,11 @@ namespace User_Creation
 
         private void dgvUserDtls_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            getallBranchers();
+
+            checkBoxLtd.Checked = false;
+            checkBoxLtdi.Checked = false;
+
             if (e.RowIndex >= 0)
             {
                 var senderGrid = (DataGridView)sender;
@@ -439,7 +527,7 @@ namespace User_Creation
                 string UserName = Convert.ToString(selectedRow.Cells["UserName"].Value);
 
                 string query = string.Empty;
-                query = "SELECT  UserID, EPFNo, UserName, UPassword, FullName, IsActive, UserGroupID, DateCreated, DateLastModified, UserCreated\r\nFROM UserDetails WHERE UserName IN('" + UserName + "')";
+                query = "SELECT  UserID, EPFNo, UserName, UPassword, FullName, IsActive, UserGroupID,Type, DateCreated, DateLastModified, UserCreated\r\nFROM UserDetails WHERE UserName IN('" + UserName + "')";
                 DataTable dt = new DataTable();
                 dt = CommonDev.SelectMultipleString(query, CommonDev.connstr);
                 if (dt.Rows.Count > 0)
@@ -450,6 +538,17 @@ namespace User_Creation
                     txtFullName.Text = dt.Rows[0]["FullName"].ToString();
                     txtEmpNo.Text = dt.Rows[0]["EPFNo"].ToString();
                     cmbUserGroup.SelectedValue = dt.Rows[0]["UserGroupID"];
+
+                    if (dt.Rows[0]["Type"].ToString() == "LTD")
+                        checkBoxLtd.Checked = true;
+                    if (dt.Rows[0]["Type"].ToString() == "LTDi")
+                        checkBoxLtdi.Checked = true;
+
+                    if (dt.Rows[0]["Type"].ToString() == "LTD/LTDi")
+                    {
+                        checkBoxLtd.Checked = true;
+                        checkBoxLtdi.Checked = true;
+                    }
                     bool activation;
 
                     activation = bool.Parse(dt.Rows[0]["IsActive"].ToString());
@@ -457,6 +556,8 @@ namespace User_Creation
                         CheckboxIsActive.Checked = true;
                     else
                         CheckboxIsActive.Checked = false;
+
+                    getallaccesbranchres(txtEmpNo.Text);
                 }
             }
         }
